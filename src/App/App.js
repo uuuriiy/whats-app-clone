@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import "./App.css";
-import { Chat } from "./Chat";
-import { Sidebar } from "./Sidebar";
+import { Chat } from "../Chat/Chat";
+import { Sidebar } from "../Sidebar/Sidebar";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Login } from "./Login";
-import { useStateValue } from "./StateProvider";
+import { Login } from "../Login/Login";
+import { useStateValue } from "../stateProvider/StateProvider";
 
 function App() {
   const [{ user }, dispatch] = useStateValue();
-  // const [user, setUser] = useState(null);
+
   return (
     <div className="app">
       {!user ? (

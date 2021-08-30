@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import "./Sidebar.css";
 import { Avatar, IconButton } from "@material-ui/core";
-import DonutLargeIcon from "@material-ui/icons/DonutLarge";
-import ChatIcon from "@material-ui/icons/Chat";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { SearchOutlined } from "@material-ui/icons";
-import { SidebarChat } from "./SidebarChat";
-import db from "./firebase";
-import { useStateValue } from "./StateProvider";
+import { SidebarChat } from "../SidebarChat/SidebarChat";
+import db from "../firebase/firebase";
+import { useStateValue } from "../stateProvider/StateProvider";
+import {SidebarHeaderContext} from "../context";
 
 export const Sidebar = () => {
   const [rooms, setRooms] = useState([]);
   const [{ user }, dispatch] = useStateValue();
+  const context = useContext(SidebarHeaderContext);
 
   useEffect(() => {
     const unsubscribe = db.collection("rooms").onSnapshot((snapshot) =>
@@ -31,21 +30,21 @@ export const Sidebar = () => {
       <div className="sidebar__header">
         <Avatar src={user?.photoURL} />
         <div className="sidebar__headerRight">
-          <IconButton>
-            <DonutLargeIcon />
-          </IconButton>
-          <IconButton>
-            <ChatIcon />
-          </IconButton>
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
+            {
+                !!context.length && context.map( ({ id, Icon }) => (
+                    <IconButton key={id}>
+                        {
+                            Icon
+                        }
+                    </IconButton>
+                ) )
+            }
         </div>
       </div>
       <div className="sidebar__search">
         <div className="sidebar__searchContainer">
           <SearchOutlined />
-          <input placeholder="Search or srart new chat" type="text" />
+          <input placeholder="Search or start new chat" type="text" />
         </div>
       </div>
       <div className="sidebar__chats">

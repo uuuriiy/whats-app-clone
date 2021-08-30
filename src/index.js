@@ -1,15 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
+import App from "./App/App";
 import reportWebVitals from "./reportWebVitals";
-import { initialState, reducer } from "./reducer";
-import { StateProvider } from "./StateProvider";
+import { initialState, reducer } from "./stateProvider/reducer";
+import { StateProvider } from "./stateProvider/StateProvider";
+import {ChatHeaderContext, SidebarHeaderContext} from "./context";
+import {chatHeader, sidebarHeader} from "./constants";
 
 ReactDOM.render(
   <React.StrictMode>
     <StateProvider initialState={initialState} reducer={reducer}>
-      <App />
+        <SidebarHeaderContext.Provider value={sidebarHeader}>
+            <ChatHeaderContext.Provider value={chatHeader}>
+                <App />
+            </ChatHeaderContext.Provider>
+        </SidebarHeaderContext.Provider>
     </StateProvider>
   </React.StrictMode>,
   document.getElementById("root")
